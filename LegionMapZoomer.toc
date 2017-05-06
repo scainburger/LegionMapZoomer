@@ -1,0 +1,12 @@
+## Interface: 70200
+## Title: LegionMapZoomer
+## Author: Scainburger
+## Version: RC1
+## Notes: Provides functionality for zooming out of order halls and disabling smaller zone maps.
+## DefaultState: Enabled
+## SavedVariables: LegionMapZoomer
+
+LegionMapZoomer.lua
+Config.lua
+
+Ace3\LibStub\LibStub.lua
