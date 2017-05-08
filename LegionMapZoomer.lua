@@ -31,12 +31,62 @@ function zoomOutHandler(...)
 
 	local extraInfo = (select(5, GetMapInfo()))
 	local dungeonLvl = (select(1, GetCurrentMapDungeonLevel()))
-	local globalZoomSetting = LMZ.db.global.zoomOrderHallsTo
+	local globalOrderHallZoom = LMZ.db.global.zoomOrderHallsTo
+	local dungeonZoom = LMZ.db.global.zoomDungeonsTo
+	local raidZoom = LMZ.db.global.zoomRaidsTo
+
+	-- Handle zooming out of Dungeons ------------------------------------------
+	local dungeons = { -- [dungeonID] = parentZoneID
+		[1066] = 1014 , -- Assault on Violet Hold
+		[1081] = 1018 , -- Black Rook hold
+		[1146] = 1021 , -- Cathedral of Eternal Night
+		[1087] = 1033 , -- Court of Stars
+		[1067] = 1018 , -- Darkheart Thicket
+		[1046] = 1015 , -- Eye of Azshara
+		[1041] = 1017 , -- Halls of Valor
+		[1042] = 1017 , -- Maw of Souls
+		[1065] = 1024 , -- Neltharion's Lair
+		[1115] = 32 , -- Return to Karazhan
+		[1079] = 1033 , -- The Arcway
+		[1045] = 1015 , -- Vault of the Wardens
+	}
+
+	if (dungeons[GetCurrentMapAreaID()] ~= nil and dungeonZoom ~= 1) then
+
+		if dungeonZoom == 2 then
+			return SetMapByID(1014)
+		elseif dungeonZoom == 3 then
+			return SetMapByID(1007)
+		elseif dungeonZoom == 4 then
+			return SetMapByID(dungeons[GetCurrentMapAreaID()])
+		end
+
+	end
+
+	-- Handle zooming out of Raids ---------------------------------------------
+	local raids = { -- [dungeonID] = parentZoneID
+		[1094] = 1018 , -- EN
+		[1114] = 1017 , -- ToV
+		[1088] = 1033 , -- NH
+	}
+
+	if (raids[GetCurrentMapAreaID()] ~= nil and raidZoom ~= 1) then
+
+		if raidZoom == 2 then
+			return SetMapByID(1014)
+		elseif raidZoom == 3 then
+			return SetMapByID(1007)
+		elseif raidZoom == 4 then
+			return SetMapByID(raids[GetCurrentMapAreaID()])
+		end
+
+	end
 	
+	-- Handle zooming out of Order Halls ---------------------------------------
 	-- zoomTo = { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Custom" }
 
 	-- If we have "all" set to Default, don't do any of this --
-	if (globalZoomSetting == 1) then
+	if (globalOrderHallZoom == 1) then
 		return LMZ.hooks["WorldMapZoomOutButton_OnClick"](...)
 	end
 
@@ -51,9 +101,9 @@ function zoomOutHandler(...)
 				return LMZ.hooks["WorldMapZoomOutButton_OnClick"](...)
 			end
 
-			if ( globalZoomSetting == 2 ) then
+			if ( globalOrderHallZoom == 2 ) then
 				return SetMapByID(1014)
-			elseif ( globalZoomSetting == 3 ) then
+			elseif ( globalOrderHallZoom == 3 ) then
 				return SetMapByID(1007)
 			else
 				if ( v.zoomTo == 2 ) then

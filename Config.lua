@@ -2,8 +2,8 @@ defaults = {
 	global = {
 		zoomTT = true,
 		zoomDal = false,
-		zoomRaidsTo = 0,
-		zoomDungeonsTo = 0,
+		zoomRaidsTo = 4,
+		zoomDungeonsTo = 4,
 		zoomOrderHallsTo = 3,
 		orderHalls = {
 			-- zoomTo = { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Custom" }
@@ -48,13 +48,37 @@ myOptions = {
 			get = function() return LMZ.db.global.zoomDal end,
 			set = function(_, val) LMZ.db.global.zoomDal = val end
 		},
+		zoomDungeons = {
+			name = "Choose where to zoom out to from Legion Dungeons",
+			desc = "When in a Legion Dungeon, right clicking on the world map " ..
+			"to zoom out will force this map to be shown.",
+			type = "select",
+			width = "full",
+			order = 2,
+			values = { "Default", "Dalaran", "Broken Isles", "Dungeon Zone" },
+			style = "dropdown",
+			get = "getZoomOrderHallsTo",
+			set = function(_, val) LMZ.db.global.zoomDungeonsTo = val end
+		},
+		zoomRaids = {
+			name = "Choose where to zoom out to from Legion Raids",
+			desc = "When in a Legion Raid, right clicking on the world map " ..
+			"to zoom out will force this map to be shown.",
+			type = "select",
+			width = "full",
+			order = 3,
+			values = { "Default", "Dalaran", "Broken Isles", "Raid Zone" },
+			style = "dropdown",
+			get = "getZoomOrderHallsTo",
+			set = function(_, val) LMZ.db.global.zoomDungeonsTo = val end
+		},
 		zoomOrderHalls = {
 			name = "Choose where to zoom out to from order halls",
 			desc = "When in your order hall, right clicking on the world map " ..
 			"to zoom out will force this map to be shown.",
 			type = "select",
 			width = "full",
-			order = 2,
+			order = 4,
 			values = { "Default", "Dalaran", "Broken Isles", "Custom" },
 			style = "dropdown",
 			get = "getZoomOrderHallsTo",
@@ -63,7 +87,7 @@ myOptions = {
 		header = {
 			name = "Set custom settings below:",
 			type = "header",
-			order = 3
+			order = 5
 		}
 	}
 }
@@ -84,7 +108,7 @@ end
 
 function populateInterfaceMenu()
 	
-	local i = 20
+	--local i = 20
 	local tmp = {}
 
 	-- Sort class names alphabetically; tables are randomly ordered
@@ -100,14 +124,15 @@ function populateInterfaceMenu()
 			name = v,
 			desc = "Choose where to zoom out to from the " .. v .. " order hall",
 			type = "select",
-			order = 3+i,
+			order = #myOptions.args+10,
+			--order = 3+i,
 			values = { "Default", "Dalaran", "Broken Isles" },
 			style = "dropdown",
 			get = function() return LMZ.db.global.orderHalls[v].zoomTo end,
 			set = function(_, val) LMZ.db.global.orderHalls[v].zoomTo = val end
 		}
 
-		i = i + 5
+		--i = i + 5
 
 	end
 --]]
