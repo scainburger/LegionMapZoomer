@@ -35,7 +35,9 @@ function zoomOutHandler(...)
 	local dungeonZoom = LMZ.db.global.zoomDungeonsTo
 	local raidZoom = LMZ.db.global.zoomRaidsTo
 
-	-- Handle zooming out of Dungeons ------------------------------------------
+	-- Handle zooming out of Dungeons --
+	-- { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Parent Zone" }
+
 	local dungeons = { -- [dungeonID] = parentZoneID
 		[1066] = 1014 , -- Assault on Violet Hold
 		[1081] = 1018 , -- Black Rook hold
@@ -63,8 +65,10 @@ function zoomOutHandler(...)
 
 	end
 
-	-- Handle zooming out of Raids ---------------------------------------------
-	local raids = { -- [dungeonID] = parentZoneID
+	-- Handle zooming out of Raids --
+	-- { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Parent Zone" }
+
+	local raids = { -- [raidID] = parentZoneID
 		[1094] = 1018 , -- EN
 		[1114] = 1017 , -- ToV
 		[1088] = 1033 , -- NH
@@ -82,8 +86,8 @@ function zoomOutHandler(...)
 
 	end
 	
-	-- Handle zooming out of Order Halls ---------------------------------------
-	-- zoomTo = { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Custom" }
+	-- Handle zooming out of Order Halls --
+	-- { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Custom" }
 
 	-- If we have "all" set to Default, don't do any of this --
 	if (globalOrderHallZoom == 1) then
@@ -96,7 +100,7 @@ function zoomOutHandler(...)
 
 			if ((v.hallID == 23 and extraInfo ~= "PaladinClassShrine") or
 				(v.hallID == 1014 and dungeonLvl ~= 4)) then
-				-- Not in Paladin or Rogue hall, respectively
+				-- Not in Paladin or Rogue Order Hall, respectively
 				-- Default zoom; you're in Eastern Plaguelands/Dalaran
 				return LMZ.hooks["WorldMapZoomOutButton_OnClick"](...)
 			end

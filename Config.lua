@@ -108,7 +108,6 @@ end
 
 function populateInterfaceMenu()
 	
-	--local i = 20
 	local tmp = {}
 
 	-- Sort class names alphabetically; tables are randomly ordered
@@ -125,14 +124,11 @@ function populateInterfaceMenu()
 			desc = "Choose where to zoom out to from the " .. v .. " order hall",
 			type = "select",
 			order = #myOptions.args+10,
-			--order = 3+i,
 			values = { "Default", "Dalaran", "Broken Isles" },
 			style = "dropdown",
 			get = function() return LMZ.db.global.orderHalls[v].zoomTo end,
 			set = function(_, val) LMZ.db.global.orderHalls[v].zoomTo = val end
 		}
-
-		--i = i + 5
 
 	end
 --]]
