@@ -57,7 +57,7 @@ myOptions = {
 			order = 2,
 			values = { "Default", "Dalaran", "Broken Isles", "Dungeon Zone" },
 			style = "dropdown",
-			get = "getZoomOrderHallsTo",
+			get = function() return LMZ.db.global.zoomDungeonsTo end,
 			set = function(_, val) LMZ.db.global.zoomDungeonsTo = val end
 		},
 		zoomRaids = {
@@ -69,8 +69,8 @@ myOptions = {
 			order = 3,
 			values = { "Default", "Dalaran", "Broken Isles", "Raid Zone" },
 			style = "dropdown",
-			get = "getZoomOrderHallsTo",
-			set = function(_, val) LMZ.db.global.zoomDungeonsTo = val end
+			get = function() return LMZ.db.global.zoomRaidsTo end,
+			set = function(_, val) LMZ.db.global.zoomRaidsTo = val end
 		},
 		zoomOrderHalls = {
 			name = "Choose where to zoom out to from order halls",
