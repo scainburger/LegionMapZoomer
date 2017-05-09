@@ -1,4 +1,4 @@
-# LegionMapZoomer
+# Legion Map Zoomer
 
 This addon contains the following customisable features:
 
