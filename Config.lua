@@ -7,18 +7,44 @@ defaults = {
 		zoomOrderHallsTo = 3,
 		orderHalls = {
 			-- zoomTo = { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Custom" }
-			["Demon Hunter"] = { hallID = 1052, zoomTo = 1 },
-			["Death Knight"] = { hallID = 1021, zoomTo = 1 },
-			["Druid"] = { hallID = 1077, zoomTo = 1 },
-			["Hunter"] = { hallID = 1072, zoomTo = 1 },
-			["Mage"] = { hallID = 1068, zoomTo = 1 },
-			["Monk"] = { hallID = 1044, zoomTo = 1 },
-			["Paladin"] = { hallID = 23, zoomTo = 1 },
-			["Priest"] = { hallID = 1040, zoomTo = 1 },
-			["Rogue"] = { hallID = 1014, zoomTo = 1 },
-			["Shaman"] = { hallID = 1057, zoomTo = 1 },
-			["Warlock"] = { hallID = 1050, zoomTo = 1 },
-			["Warrior"] = { hallID = 1035, zoomTo = 1 }
+			["Demon Hunter"] = { hallID = function() return 1052 end, zoomTo = 1 },
+
+			["Death Knight"] = { hallID = function() return 1021 end, zoomTo = 1 },
+
+			["Druid"] = { hallID = function() 
+			if GetCurrentMapAreaID() == 1048 then 
+				return 1048 -- Emerald Dreamway
+			else 
+				return 1077 -- Dreamgrove
+			end end, zoomTo = 1 },
+
+			["Hunter"] = { hallID = function() return 1072 end, zoomTo = 1 },
+
+			["Mage"] = { hallID = function() return 1068 end, zoomTo = 1 },
+
+			["Monk"] = { hallID = function() return 1044 end, zoomTo = 1 },
+
+			["Paladin"] = { hallID = function() 
+			if (select(5, GetMapInfo())) == "PaladinClassShrine" then 
+				return 23 -- Distinguish Eastern Plaguelands
+			else 
+				return false 
+			end end, zoomTo = 1 },
+
+			["Priest"] = { hallID = function() return 1040 end, zoomTo = 1 },
+
+			["Rogue"] = { hallID = function() 
+			if (select(1, GetCurrentMapDungeonLevel())) == 4 then 
+				return 1014 -- Distinguish between Dalaran 
+			else 
+				return false
+			end end, zoomTo = 1 },
+
+			["Shaman"] = { hallID = function() return 1057 end, zoomTo = 1 },
+
+			["Warlock"] = { hallID = function() return 1050 end, zoomTo = 1 },
+
+			["Warrior"] = { hallID = function() return 1035 end, zoomTo = 1 }
 		}
 	}	
 }

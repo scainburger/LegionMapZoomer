@@ -2,5 +2,11 @@ RC1: Changes from No Thunder Totem Map (original addon: https://mods.curse.com/a
 	- Added option to disable Dalaran map in the same fashion
 	- Added ability to click to zoom in manually on disabled zones
 	- Added customisable right-click zoom out from order halls: Default, Dalaran, Broken Isles or Custom (set each order hall individually to one of the above settings).
+
 1.0:
-	- Added customisable right-click zoom out from Broken Isles instances: Default/None, Dalaran, Broken Isles or Custom/None (set by all raids & all dungeons.
+	- Added customisable right-click zoom out from Broken Isles instances: Default/None, Dalaran, Broken Isles or Custom/None (set by all raids & all dungeons).
+
+1.1:
+	- Now checks the Emerald Dreamway instead of just Dreamgrove
+	- Fixed library embeds
+	- Expanded config variables to allow for more flexible zone checking

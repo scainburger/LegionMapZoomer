@@ -96,14 +96,7 @@ function zoomOutHandler(...)
 
 	for k, v in pairs(LMZ.db.global.orderHalls) do
 
-		if ( GetCurrentMapAreaID() == v.hallID) then
-
-			if ((v.hallID == 23 and extraInfo ~= "PaladinClassShrine") or
-				(v.hallID == 1014 and dungeonLvl ~= 4)) then
-				-- Not in Paladin or Rogue Order Hall, respectively
-				-- Default zoom; you're in Eastern Plaguelands/Dalaran
-				return LMZ.hooks["WorldMapZoomOutButton_OnClick"](...)
-			end
+		if ( GetCurrentMapAreaID() == v.hallID()) then
 
 			if ( globalOrderHallZoom == 2 ) then
 				return SetMapByID(1014)
