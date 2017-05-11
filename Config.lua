@@ -7,9 +7,15 @@ defaults = {
 		zoomOrderHallsTo = 3,
 		orderHalls = {
 			-- zoomTo = { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Custom" }
-			["Demon Hunter"] = { hallID = function() return 1052 end, zoomTo = 1 },
+			["Demon Hunter"] = { hallID = function() 
+				if (select(1, GetCurrentMapDungeonLevel())) ~= 1 then 
+					return 1052 else return false end
+			end, zoomTo = 1 },
 
-			["Death Knight"] = { hallID = function() return 1021 end, zoomTo = 1 },
+			["Death Knight"] = { hallID = function()
+				if (select(1, GetCurrentMapDungeonLevel())) ~= 0 then 
+					return 1021 else return false end
+			end, zoomTo = 1 },
 
 			["Druid"] = { hallID = function() 
 			if GetCurrentMapAreaID() == 1048 then 
