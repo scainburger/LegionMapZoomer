@@ -49,6 +49,7 @@ function zoomOutHandler(...)
 		[1042] = 1017 , -- Maw of Souls
 		[1065] = 1024 , -- Neltharion's Lair
 		[1115] = 32 , -- Return to Karazhan
+		[1178] = 1170 , -- Seat of the Triumvirate
 		[1079] = 1033 , -- The Arcway
 		[1045] = 1015 , -- Vault of the Wardens
 	}
@@ -72,6 +73,8 @@ function zoomOutHandler(...)
 		[1094] = 1018 , -- EN
 		[1114] = 1017 , -- ToV
 		[1088] = 1033 , -- NH
+		[1147] = 1021 , -- ToS
+		[1188] = 1171 , -- Antorus
 	}
 
 	if (raids[GetCurrentMapAreaID()] ~= nil and raidZoom ~= 1) then
