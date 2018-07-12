@@ -1,8 +1,8 @@
-## Interface: 70200
+## Interface: 80000
 ## Title: LegionMapZoomer
 ## Author: Scainburger
-## Version: 1.2
-## Notes: Provides functionality for customising zooming out of order halls & instances and disabling smaller zone maps.
+## Version: 2.0
+## Notes: Provides functionality for customising zooming out of order halls, and disabling smaller zone maps.
 ## DefaultState: Enabled
 ## SavedVariables: LegionMapZoomer
 

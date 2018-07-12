@@ -1,21 +1,31 @@
-RC1: Changes from No Thunder Totem Map (original addon: https://mods.curse.com/addons/wow/264633-no-thunder-totem-map)
-	- Added option to disable Dalaran map in the same fashion
-	- Added ability to click to zoom in manually on disabled zones
-	- Added customisable right-click zoom out from order halls: Default, Dalaran, Broken Isles or Custom (set each order hall individually to one of the above settings).
+2.0: 
+	- Removed ability to customise zoom-out from raids and dungeons
+		- It was a lot of work to implement and maintain for a mostly useless feature
+		- To update for BfA was getting messy; seeing as it was mostly unused anyway and is now old content, I scrapped it.
+		- ORDER HALLS ARE STILL SUPPORTED! :)
+	- Code updates to work with API changes, code cleanup, updated Ace3 library
 
-1.0:
-	- Added customisable right-click zoom out from Broken Isles instances: Default/None, Dalaran, Broken Isles or Custom/None (set by all raids & all dungeons).
+	- This will likely be the final update. If things break in the future I'll probably not fix them.
+	- That said, thanks for using my addon! It's old content now, so I won't be offended if you delete it :)
+
+1.2:
+	- Updated to work with ToS, Antorus and Seat of the Triumvirate
+
+1.1.2:
+	- Improved accuracy of DH and DK order hall detection
+
+1.1.1:
+	- Fix imports file extensions
 
 1.1:
 	- Now checks the Emerald Dreamway instead of just Dreamgrove
 	- Fixed library embeds
 	- Expanded config variables to allow for more flexible zone checking
 
-1.1.1:
-	- Fix imports file extensions
+1.0:
+	- Added customisable right-click zoom out from Broken Isles instances: Default/None, Dalaran, Broken Isles or Custom/None (set by all raids & all dungeons).
 
-1.1.2:
-	- Improved accuracy of DH and DK order hall detection
-
-1.2:
-	- Updated to work with ToS, Antorus and Seat of the Triumvirate
+RC1: Changes from No Thunder Totem Map (original addon: https://mods.curse.com/addons/wow/264633-no-thunder-totem-map)
+	- Added option to disable Dalaran map in the same fashion
+	- Added ability to click to zoom in manually on disabled zones
+	- Added customisable right-click zoom out from order halls: Default, Dalaran, Broken Isles or Custom (set each order hall individually to one of the above settings).

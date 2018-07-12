@@ -2,56 +2,33 @@ defaults = {
 	global = {
 		zoomTT = true,
 		zoomDal = false,
-		zoomRaidsTo = 4,
-		zoomDungeonsTo = 4,
 		zoomOrderHallsTo = 3,
 		orderHalls = {
 			-- zoomTo = { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Custom" }
-			["Demon Hunter"] = { hallID = function() 
-				if (select(1, GetCurrentMapDungeonLevel())) ~= 1 then 
-					return 1052 else return false end
-			end, zoomTo = 1 },
+			["Demon Hunter"] = { hallID = {720}, zoomTo = 1 },
 
-			["Death Knight"] = { hallID = function()
-				if (select(1, GetCurrentMapDungeonLevel())) ~= 0 then 
-					return 1021 else return false end
-			end, zoomTo = 1 },
+			["Death Knight"] = { hallID = {647, 648}, zoomTo = 1 },
 
-			["Druid"] = { hallID = function() 
-			if GetCurrentMapAreaID() == 1048 then 
-				return 1048 -- Emerald Dreamway
-			else 
-				return 1077 -- Dreamgrove
-			end end, zoomTo = 1 },
+			["Druid"] = { hallID = {715, 747}, zoomTo = 1 },
 
-			["Hunter"] = { hallID = function() return 1072 end, zoomTo = 1 },
+			["Hunter"] = { hallID = {739}, zoomTo = 1 },
 
-			["Mage"] = { hallID = function() return 1068 end, zoomTo = 1 },
+			["Mage"] = { hallID = {734, 735}, zoomTo = 1 },
 
-			["Monk"] = { hallID = function() return 1044 end, zoomTo = 1 },
+			["Monk"] = { hallID = {709}, zoomTo = 1 },
 
-			["Paladin"] = { hallID = function() 
-			if (select(5, GetMapInfo())) == "PaladinClassShrine" then 
-				return 23 -- Distinguish Eastern Plaguelands
-			else 
-				return false 
-			end end, zoomTo = 1 },
+			["Paladin"] = { hallID = {24}, zoomTo = 1 },
 
-			["Priest"] = { hallID = function() return 1040 end, zoomTo = 1 },
+			["Priest"] = { hallID = {702}, zoomTo = 1 },
 
-			["Rogue"] = { hallID = function() 
-			if (select(1, GetCurrentMapDungeonLevel())) == 4 then 
-				return 1014 -- Distinguish between Dalaran 
-			else 
-				return false
-			end end, zoomTo = 1 },
+			["Rogue"] = { hallID = {626}, zoomTo = 1 },
 
-			["Shaman"] = { hallID = function() return 1057 end, zoomTo = 1 },
+			["Shaman"] = { hallID = {726}, zoomTo = 1 },
 
-			["Warlock"] = { hallID = function() return 1050 end, zoomTo = 1 },
+			["Warlock"] = { hallID = {717}, zoomTo = 1 },
 
-			["Warrior"] = { hallID = function() return 1035 end, zoomTo = 1 }
-		}
+			["Warrior"] = { hallID = {695}, zoomTo = 1 },
+		},
 	}	
 }
 
@@ -68,7 +45,7 @@ myOptions = {
 			width = "full",
 			order = 0,
 			get = function() return LMZ.db.global.zoomTT end,
-			set = function(_, val) LMZ.db.global.zoomTT = val end
+			set = function(_, val) LMZ.db.global.zoomTT = val end,
 		},
 		zoomDal = {
 			name = "Automatically zoom out of Dalaran",
@@ -78,31 +55,12 @@ myOptions = {
 			width = "full",
 			order = 1,
 			get = function() return LMZ.db.global.zoomDal end,
-			set = function(_, val) LMZ.db.global.zoomDal = val end
+			set = function(_, val) LMZ.db.global.zoomDal = val end,
 		},
-		zoomDungeons = {
-			name = "Choose where to zoom out to from Legion Dungeons",
-			desc = "When in a Legion Dungeon, right clicking on the world map " ..
-			"to zoom out will force this map to be shown.",
-			type = "select",
-			width = "full",
+		header1 = {
+			name = "",
+			type = "header",
 			order = 2,
-			values = { "Default", "Dalaran", "Broken Isles", "Dungeon Zone" },
-			style = "dropdown",
-			get = function() return LMZ.db.global.zoomDungeonsTo end,
-			set = function(_, val) LMZ.db.global.zoomDungeonsTo = val end
-		},
-		zoomRaids = {
-			name = "Choose where to zoom out to from Legion Raids",
-			desc = "When in a Legion Raid, right clicking on the world map " ..
-			"to zoom out will force this map to be shown.",
-			type = "select",
-			width = "full",
-			order = 3,
-			values = { "Default", "Dalaran", "Broken Isles", "Raid Zone" },
-			style = "dropdown",
-			get = function() return LMZ.db.global.zoomRaidsTo end,
-			set = function(_, val) LMZ.db.global.zoomRaidsTo = val end
 		},
 		zoomOrderHalls = {
 			name = "Choose where to zoom out to from order halls",
@@ -110,17 +68,17 @@ myOptions = {
 			"to zoom out will force this map to be shown.",
 			type = "select",
 			width = "full",
-			order = 4,
+			order = 3,
 			values = { "Default", "Dalaran", "Broken Isles", "Custom" },
 			style = "dropdown",
 			get = "getZoomOrderHallsTo",
-			set = function(_, val) LMZ.db.global.zoomOrderHallsTo = val end
+			set = function(_, val) LMZ.db.global.zoomOrderHallsTo = val end,
 		},
-		header = {
+		header2 = {
 			name = "Set custom settings below:",
 			type = "header",
-			order = 5
-		}
+			order = 4,
+		},
 	}
 }
 
@@ -159,7 +117,7 @@ function populateInterfaceMenu()
 			values = { "Default", "Dalaran", "Broken Isles" },
 			style = "dropdown",
 			get = function() return LMZ.db.global.orderHalls[v].zoomTo end,
-			set = function(_, val) LMZ.db.global.orderHalls[v].zoomTo = val end
+			set = function(_, val) LMZ.db.global.orderHalls[v].zoomTo = val end,
 		}
 
 	end

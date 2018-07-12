@@ -2,6 +2,9 @@ local addonName, addon = ...
 
 local mapOpen = false -- See LMZ:WORLD_MAP_UPDATE()
 
+function getMapID() return WorldMapFrame:GetMapID() end
+function setMapID(id) return WorldMapFrame:SetMapID(id) end
+
 -- Import and reference Ace3 modules
 LMZ = LibStub("AceAddon-3.0"):NewAddon(addonName, "AceEvent-3.0", "AceHook-3.0", "AceConsole-3.0")
 
@@ -19,118 +22,63 @@ function LMZ:OnInitialize()
 		InterfaceOptionsFrame_OpenToCategory(self.optionsFrame) 
 		InterfaceOptionsFrame_OpenToCategory(self.optionsFrame) 
 	end )
-	self:RawHook("WorldMapZoomOutButton_OnClick", zoomOutHandler, true)
-	self:RegisterEvent("WORLD_MAP_UPDATE")
-end
-
-function LMZ:openOptions()
-	InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
+	self:RawHook(WorldMapFrame,"NavigateToParentMap", zoomOutHandler, true)
+	--self:RawHook("WorldMapZoomOutButton_OnClick", zoomOutHandler, true)
+	self:RegisterEvent("UPDATE_UI_WIDGET")
 end
 
 function zoomOutHandler(...)
 
-	local extraInfo = (select(5, GetMapInfo()))
-	local dungeonLvl = (select(1, GetCurrentMapDungeonLevel()))
 	local globalOrderHallZoom = LMZ.db.global.zoomOrderHallsTo
 	local dungeonZoom = LMZ.db.global.zoomDungeonsTo
 	local raidZoom = LMZ.db.global.zoomRaidsTo
 
-	-- Handle zooming out of Dungeons --
-	-- { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Parent Zone" }
+	local legionDalaranID = 625
+	local brokenIslesID = 619
+	local thunderTotemID = 750
+	local highmountainID= 650
 
-	local dungeons = { -- [dungeonID] = parentZoneID
-		[1066] = 1014 , -- Assault on Violet Hold
-		[1081] = 1018 , -- Black Rook hold
-		[1146] = 1021 , -- Cathedral of Eternal Night
-		[1087] = 1033 , -- Court of Stars
-		[1067] = 1018 , -- Darkheart Thicket
-		[1046] = 1015 , -- Eye of Azshara
-		[1041] = 1017 , -- Halls of Valor
-		[1042] = 1017 , -- Maw of Souls
-		[1065] = 1024 , -- Neltharion's Lair
-		[1115] = 32 , -- Return to Karazhan
-		[1178] = 1170 , -- Seat of the Triumvirate
-		[1079] = 1033 , -- The Arcway
-		[1045] = 1015 , -- Vault of the Wardens
-	}
-
-	if (dungeons[GetCurrentMapAreaID()] ~= nil and dungeonZoom ~= 1) then
-
-		if dungeonZoom == 2 then
-			return SetMapByID(1014)
-		elseif dungeonZoom == 3 then
-			return SetMapByID(1007)
-		elseif dungeonZoom == 4 then
-			return SetMapByID(dungeons[GetCurrentMapAreaID()])
-		end
-
-	end
-
-	-- Handle zooming out of Raids --
-	-- { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Parent Zone" }
-
-	local raids = { -- [raidID] = parentZoneID
-		[1094] = 1018 , -- EN
-		[1114] = 1017 , -- ToV
-		[1088] = 1033 , -- NH
-		[1147] = 1021 , -- ToS
-		[1188] = 1171 , -- Antorus
-	}
-
-	if (raids[GetCurrentMapAreaID()] ~= nil and raidZoom ~= 1) then
-
-		if raidZoom == 2 then
-			return SetMapByID(1014)
-		elseif raidZoom == 3 then
-			return SetMapByID(1007)
-		elseif raidZoom == 4 then
-			return SetMapByID(raids[GetCurrentMapAreaID()])
-		end
-
-	end
-	
 	-- Handle zooming out of Order Halls --
 	-- { [1] = "Default", [2] = "Dalaran", [3] = "Broken Isles", [4] = "Custom" }
 
-	-- If we have "all" set to Default, don't do any of this --
+	--If we have "all" set to Default, don't do any of this --
 	if (globalOrderHallZoom == 1) then
-		return LMZ.hooks["WorldMapZoomOutButton_OnClick"](...)
-	end
+		return LMZ.hooks[WorldMapFrame]["NavigateToParentMap"](...)
+	end 
+	
 
-	for k, v in pairs(LMZ.db.global.orderHalls) do
-
-		if ( GetCurrentMapAreaID() == v.hallID()) then
-
-			if ( globalOrderHallZoom == 2 ) then
-				return SetMapByID(1014)
-			elseif ( globalOrderHallZoom == 3 ) then
-				return SetMapByID(1007)
-			else
-				if ( v.zoomTo == 2 ) then
-					return SetMapByID(1014)
-				elseif ( v.zoomTo == 3 ) then
-					return SetMapByID(1007)
+	for k, v in pairs(LMZ.db.global.orderHalls) do -- For each hall
+		for i, j in pairs(v.hallID) do -------------- For each possible hall ID
+			if (getMapID() == v.hallID[i]) then ----- If in hall
+				if ( globalOrderHallZoom == 2 ) then
+					return setMapID(legionDalaranID)
+				elseif ( globalOrderHallZoom == 3 ) then
+					return setMapID(brokenIslesID)
+				else
+					if ( v.zoomTo == 2 ) then						
+						return setMapID(legionDalaranID)
+					elseif ( v.zoomTo == 3 ) then
+						return setMapID(brokenIslesID)
+					end
 				end
 			end
-
 		end
-
 	end
 
-	return LMZ.hooks["WorldMapZoomOutButton_OnClick"](...)
+	return LMZ.hooks[WorldMapFrame]["NavigateToParentMap"](...)
 
 end
 
-function LMZ:WORLD_MAP_UPDATE()
+function LMZ:UPDATE_UI_WIDGET(e, data)
 
 	if not WorldMapFrame:IsShown() then mapOpen = false end
 
 	if mapOpen == true then return end
 
-	if (GetCurrentMapAreaID() == 1080 and self.db.global.zoomTT == true) then
-		SetMapByID(1024) 
-	elseif (GetCurrentMapAreaID() == 1014 and self.db.global.zoomDal == true) then
-		SetMapByID(1007) 
+	if (getMapID() == thunderTotemID and self.db.global.zoomTT == true) then
+		setMapID(highmountainID) 
+	elseif (getMapID() == legionDalaranID and self.db.global.zoomDal == true) then
+		setMapID(brokenIslesID) 
 	end
 
 	-- We still want to zoom when opening the map, so only set to true when done zooming.
